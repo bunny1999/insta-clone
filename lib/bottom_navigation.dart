@@ -33,7 +33,6 @@ class _BottomNavigationState extends State<BottomNavigation> with SingleTickerPr
   var _tabSelectedIndex = 0;
   var _tabPopStack = false;
 
-
   @override
   void initState(){
     super.initState();
@@ -52,9 +51,9 @@ class _BottomNavigationState extends State<BottomNavigation> with SingleTickerPr
 
   Future<bool> _onPop() async{
     if(_navigationQueue.isEmpty) return true;
-
-    _navigationQueue.removeLast();
     
+    _navigationQueue.removeLast();
+
     _setIndex(_navigationQueue.last);
 
     await _tabNavigator.currentState.maybePop();

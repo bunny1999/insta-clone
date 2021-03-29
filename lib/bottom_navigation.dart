@@ -9,6 +9,7 @@ import 'package:insta/notification/screen/notification_screen.dart';
 import 'package:insta/profile/screen/profile_screen.dart';
 import 'package:insta/search/screen/grid_screen.dart';
 import 'package:insta/upload/screen/upload_screen.dart';
+import 'package:insta/widgets/tab_navigation_widget.dart';
 
 
 class BottomNavigation extends StatefulWidget {
@@ -18,9 +19,20 @@ class BottomNavigation extends StatefulWidget {
 
 
 class _BottomNavigationState extends State<BottomNavigation> with SingleTickerProviderStateMixin{
+  final _tabNavigator = GlobalKey<TabNavigatorState>();
+  final _tab1 = GlobalKey<NavigatorState>();
+  final _tab2 = GlobalKey<NavigatorState>();
+  final _tab3 = GlobalKey<NavigatorState>();
+  final _tab4 = GlobalKey<NavigatorState>();
+  final _tab5 = GlobalKey<NavigatorState>();
+  
   TabController _tabController;
   Queue<int> _navigationQueue;
   UserModel userModel;
+
+  var _tabSelectedIndex = 0;
+  var _tabPopStack = false;
+
 
   @override
   void initState(){
@@ -30,46 +42,63 @@ class _BottomNavigationState extends State<BottomNavigation> with SingleTickerPr
     _navigationQueue.add(0);
     userModel = userModelHelper(userData);
   }
+
+  _setIndex(int index){
+    setState(() {
+      _tabPopStack = _tabSelectedIndex == index;
+      _tabSelectedIndex = index;
+    });
+  }
+
+  Future<bool> _onPop() async{
+    if(_navigationQueue.isEmpty) return true;
+
+    _navigationQueue.removeLast();
+    
+    _setIndex(_navigationQueue.last);
+
+    await _tabNavigator.currentState.maybePop();
+    return false;
+  }
+
+  _onPush(int index){
+    if(!_navigationQueue.contains(index))
+      _navigationQueue.addLast(index);
+    _setIndex(index);
+  }
   
   @override
   Widget build(BuildContext context) {
+    print(_navigationQueue);
     return WillPopScope(
-      onWillPop: () async{
-        if(_navigationQueue.isEmpty) return true;
-        _navigationQueue.removeLast();
-        _tabController.animateTo(_navigationQueue.last);
-        setState(() {});
-        return false;
-      },
+      onWillPop:()=> _onPop(),
       child: Scaffold(
-        body:TabBarView(
-          controller: _tabController,
-          children: <Widget>[
-            FeedScreen(),
-            GridScreen(),
-            UploadScreen(),
-            NotificationScreen(),
-            ProfileScreen(userModel: userModel)
+        body:TabNavigator(
+          key: _tabNavigator,
+          tabs: <TabItem>[
+            TabItem(_tab1,FeedScreen()),
+            TabItem(_tab2,GridScreen()),
+            TabItem(_tab3,UploadScreen()),
+            TabItem(_tab4,NotificationScreen()),
+            TabItem(_tab5,ProfileScreen(userModel: userModel))
           ],
+          selectedIndex: _tabSelectedIndex,
+          popStack: _tabPopStack,
         ),
         bottomNavigationBar:BottomAppBar(
           child: TabBar(
             indicatorColor: primaryColor,
             indicatorWeight: 0.1,
             controller: _tabController,
-            onTap: (index){
-              if(!_navigationQueue.contains(index))
-                _navigationQueue.addLast(index);
-              setState(() {});
-            },
+            onTap: (index)=>_onPush(index),
             tabs: <Widget>[
               Tab(
-                icon: _tabController.index==0
+                icon: _tabSelectedIndex==0
                   ?Icon(Icons.home_filled)
                   :Icon(Icons.home_outlined),
               ),
               Tab(
-                icon: _tabController.index==1
+                icon: _tabSelectedIndex==1
                   ?Icon(Icons.search,color: secoundaryColor.withOpacity(1.0))
                   :Icon(Icons.search,color: secoundaryColor.withOpacity(0.7))
               ),
@@ -77,7 +106,7 @@ class _BottomNavigationState extends State<BottomNavigation> with SingleTickerPr
                 icon: Icon(Icons.add_box),
               ),
               Tab(
-                icon: _tabController.index==3
+                icon: _tabSelectedIndex==3
                   ?Icon(Icons.notifications_active)
                   :Icon(Icons.notifications_active_outlined),
               ),
@@ -86,7 +115,7 @@ class _BottomNavigationState extends State<BottomNavigation> with SingleTickerPr
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: _tabController.index==4
+                      color: _tabSelectedIndex==4
                         ?secoundaryColor
                         :primaryColor
                     )
@@ -105,3 +134,4 @@ class _BottomNavigationState extends State<BottomNavigation> with SingleTickerPr
     );
   }
 }
+

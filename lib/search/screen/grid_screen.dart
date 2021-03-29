@@ -9,6 +9,7 @@ import 'package:insta/widgets/stateful_scroll_view.dart';
 final DoubleHolder offsetSearch = new DoubleHolder();
 
 final List<RandomPostModel> randomPosts=[];
+final List<DoubleHolder> offsetExplores=[];
 
 class GridScreen extends StatefulWidget {
   @override
@@ -23,6 +24,7 @@ class _GridScreenState extends State<GridScreen> {
     if(randomPosts.length<1)
       for(var url in randomPhotos){
         randomPosts.add(randomPostModelHelper(url));
+        offsetExplores.add(DoubleHolder());
       }
   }
 
@@ -51,7 +53,6 @@ class _GridScreenState extends State<GridScreen> {
                   const Radius.circular(5.0),
                 ),
               ),
-
               contentPadding: EdgeInsets.symmetric(vertical: 0.0)
             )
           ),
@@ -72,7 +73,10 @@ class _GridScreenState extends State<GridScreen> {
               onTap: (){
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: 
-                    (context)=>ExploreScreen(randomPosts: randomPosts,)
+                    (context)=>ExploreScreen(
+                      randomPosts: randomPosts,
+                      offsetExplore: offsetExplores[index],
+                    )
                   )
                 );
               },

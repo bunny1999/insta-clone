@@ -7,11 +7,10 @@ import 'package:insta/widgets/feed_card_widget.dart';
 import 'package:insta/widgets/insta_app_bar.dart';
 import 'package:insta/widgets/stateful_scroll_view.dart';
 
-final DoubleHolder offsetExplore = new DoubleHolder();
-
 class ExploreScreen extends StatelessWidget {
+  final DoubleHolder offsetExplore;
   final List<RandomPostModel> randomPosts;
-  ExploreScreen({this.randomPosts});
+  ExploreScreen({this.randomPosts,this.offsetExplore});
   
   final _random = new Random();
 

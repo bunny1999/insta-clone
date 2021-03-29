@@ -12,7 +12,8 @@ class StatefulScrollView extends StatefulWidget {
   final DoubleHolder _offset;
   final bool isGrid;
   
-  StatefulScrollView(this._offset,this._itemCount,this._indexedWidgetBuilder,{this.isGrid=false});
+  StatefulScrollView(
+    this._offset,this._itemCount,this._indexedWidgetBuilder,{this.isGrid=false});
 
   double getOffsetMethod() {
     return _offset.value;

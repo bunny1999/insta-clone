@@ -115,7 +115,7 @@ class ProfileInfo extends StatelessWidget {
                     children: [
                       Expanded(
                         child: RaisedButton(
-                          elevation: 0.6,
+                          elevation: 0.5,
                           color: placeholderColor,
                           onPressed: (){}, 
                           child: Text('Edit Profile'),
@@ -124,7 +124,7 @@ class ProfileInfo extends StatelessWidget {
                       SizedBox(width: 8.0,),
                       Expanded(
                         child: RaisedButton(
-                          elevation: 0.6,
+                          elevation: 0.5,
                           color: placeholderColor,
                           onPressed: (){}, 
                           child: Text('Saved'),

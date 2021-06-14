@@ -24,8 +24,9 @@ class TabNavigator extends StatefulWidget {
 }
 
 class TabNavigatorState extends State<TabNavigator> {
-  Future<bool> maybePop() {
-    return widget.tabs[widget.selectedIndex].key.currentState.maybePop();
+  Future<int> maybePop() async{
+    await widget.tabs[widget.selectedIndex].key.currentState.maybePop();
+    return widget.selectedIndex;
   }
 
   _popStackIfRequired(BuildContext context) async {

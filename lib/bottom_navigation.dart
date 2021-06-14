@@ -51,7 +51,7 @@ class _BottomNavigationState extends State<BottomNavigation> with SingleTickerPr
 
   Future<bool> _onPop() async{
     if(_navigationQueue.isEmpty) return true;
-    
+
     _navigationQueue.removeLast();
 
     _setIndex(_navigationQueue.last);

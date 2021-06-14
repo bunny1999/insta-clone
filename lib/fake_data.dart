@@ -12,7 +12,7 @@ const Map userData={
     "https://images.pexels.com/photos/1397364/pexels-photo-1397364.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
   ]
 };
-const List feedsData=[
+List feedsData=[
   {
     "thumbNail": "https://images.pexels.com/photos/1427288/pexels-photo-1427288.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     "name":"elizabethgilmore",
